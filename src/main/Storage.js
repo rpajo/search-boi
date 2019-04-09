@@ -45,9 +45,24 @@ function parseDataFile (filePath, defaults) {
 export const storage = new Storage({
   defaults: {
     pages: [
-      { url: 'https://www.google.com/search?q=%s', delimiter: '+' },
-      { url: 'https://www.bing.com/search?q=%s', delimiter: '+' },
-      { url: 'https://www.youtube.com/results?search_query=%s', delimiter: '+' }
+      {
+        url: 'https://www.google.com/search?q=%s',
+        prefix: '',
+        sufix: '',
+        delimiter: '+'
+      },
+      {
+        url: 'https://www.bing.com/search?q=%s',
+        prefix: '',
+        sufix: '',
+        delimiter: '+'
+      },
+      {
+        url: 'https://www.youtube.com/results?search_query=%s',
+        prefix: '',
+        sufix: '',
+        delimiter: '+'
+      }
     ]
   }
 });

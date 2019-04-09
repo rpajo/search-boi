@@ -54,7 +54,8 @@
         const pageList = storage.get('pages');
         console.log(this.searchTerm, this.$data.searchTerm);
         pageList.forEach(page => {
-          const formatedUrl = page.url.replace('%s', this.searchTerm.replace(' ', page.delimiter));
+          const searchTerm = (`${page.prefix || ''} ${this.searchTerm.trim()} ${page.sufix || ''}`).trim().replace(/\s/g, page.delimiter);
+          const formatedUrl = page.url.replace(/%s/g, searchTerm);
           console.log(formatedUrl);
           this.$electron.shell.openExternal(formatedUrl);
         });

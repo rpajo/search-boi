@@ -7,8 +7,10 @@
 
     <div class="page-settings">
       <div class="page-info" v-for="(page, index) in pages" :key="`${index}`">
-        <input class="input url-input" v-model=page.url />
-        <input class="input deli-input" v-model=page.delimiter />
+        <input class="input small url-input" v-model=page.url placeholder="Search Url" />
+        <input class="input small input-md" v-model=page.prefix placeholder="Prefix" />
+        <input class="input small input-md" v-model=page.sufix placeholder="Sufix" />
+        <input class="input small input-sm" v-model=page.delimiter placeholder="" />
         <button class="button alt icon" @click="removePage(index)">
           <i class="fas fa-times"></i>
         </button>
@@ -20,9 +22,14 @@
     </div>
 
     <div class="usage-info">
-      <p>
-        Column 1: Search url, Column 2: space delimiter
-      </p>
+      Page parameters:
+      <ul>
+        <li>Column 1: Search url,</li>
+        <li>Column 2: search prefix,</li>
+        <li>Column 2: search sufix,</li>
+        <li>Column 4: space delimiter</li>
+      </ul>
+      <br>
       <p>
         On search, any '%s' strings will be replaced by the seach query. Spaces will be replaced by the set delimiter.
       </p>
@@ -40,7 +47,7 @@
 
 <script>
   import { storage } from '../../main/Storage';
-import { delimiter } from 'path';
+  import { delimiter } from 'path';
 
   export default {
     name: 'settings-page',
@@ -51,6 +58,8 @@ import { delimiter } from 'path';
       addPage() {
         this.pages.push({
           url: 'https://www.google.com/search?q=%s',
+          prefix: '',
+          sufix: '',
           delimiter: '+'
         });
       },
@@ -59,7 +68,14 @@ import { delimiter } from 'path';
         this.pages.splice(index, 1);
       },
       saveSettings() {
-        console.log(this.data, this.$data.pages.map(p => { return { 'url': p.url, 'delimiter': p.delimiter } }));
+        console.log(this.data, this.$data.pages.map(p => {
+          return {
+            'url': p.url,
+            'prefix': '',
+            'sufix': '',
+            'delimiter': p.delimiter
+          }
+        }));
 
         const saveStatus = storage.set('pages', this.$data.pages);
         console.log(saveStatus);
@@ -82,6 +98,7 @@ import { delimiter } from 'path';
 <style lang="scss">
   h2 {
     color: var(--secondary-color);
+    margin-bottom: 0.5rem;
   }
 
   .settings-content {
@@ -100,12 +117,19 @@ import { delimiter } from 'path';
     .url-input {
       flex: 1 1 auto;
     }
-    .deli-input {
+    .input-sm {
+      flex: 0 1 2rem;
+      width: 100%;
+    }
+    .input-md {
       flex: 0 1 3rem;
-      width: 3rem;
+      width: 100%;
     }
     .button {
       flex: 0 1 2rem;
+    }
+    .small {
+      font-size: .9rem;
     }
   }
 
